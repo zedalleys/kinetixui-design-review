@@ -29,7 +29,16 @@ choose the lower one and say what evidence would raise it.
    affected sites, not N findings.
 6. **Intentional ≠ correct, but it changes the question.** If the code or docs
    state a deliberate trade-off, evaluate whether the trade-off is sound and
-   honestly disclosed; do not report it as an oversight.
+   honestly disclosed; do not report it as an oversight. Then apply the
+   rule-conflict calibration below.
+7. **Rule conflicts.** When a *deliberate, disclosed* design conflicts with a
+   rule the project itself marks ESTABLISHED (profile, ADR, contributing docs):
+   - no project rule conflicts → **P2 at most**, plus an audit question;
+   - conflicts with an ESTABLISHED rule **and** the user-visible effect is real or likely (e.g. whole-shell mirroring, broken mixed chrome) → **P1**, status *needs owner decision* (amend the rule with a stated exception, or change the code). Quote the rule and the stated rationale side by side; do not call it an oversight.
+   - conflicts with a PROVISIONAL rule or an AUDIT QUESTION → note/P2; never P1 on that basis alone.
+8. **Disclosure reduces severity only if users can perceive it.** A trade-off disclosed only in a code comment or screen-reader-only text is disclosed to maintainers, not to the sighted evaluator.
+9. **Known/tracked results.** A check the project reports as a *known, tracked* exception is a disclosed state; report it as context. It becomes a finding only if it regressed, or if a new surface does worse than the tracked baseline.
+10. **Test absence is not a defect by itself.** Missing test coverage is P2/P3 unless the project claims that verification kind (or the platform's chosen tier is compile/CI-only by design — then it is a note).
 
 ## Verdicts
 
@@ -38,6 +47,8 @@ choose the lower one and say what evidence would raise it.
 - **PASS** — no P0/P1; P2/P3 absent or trivial for the scope.
 - **PASS WITH NOTES** — no P0/P1; P2/P3 findings worth tracking.
 - **FAIL** — any P0 or P1 within the reviewed scope.
+
+The verdict is *derived from the findings*: never FAIL on P2/P3-only findings, and never PASS with an open P0/P1. If a finding is "P1 if confirmed" and you could not confirm it, the verdict is PASS WITH NOTES and the confirming check heads the Recommendations.
 
 A PASS only covers the reviewed scope. Always state the scope.
 

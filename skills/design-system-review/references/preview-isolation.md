@@ -39,7 +39,9 @@ Evaluate in this order:
 1. **Is the scope stated** (comment/docs/UI label)? If yes, it is not an oversight — assess whether the trade-off is sound and honestly disclosed.
 2. **Is a scoped alternative feasible?** E.g. a direction/theme *provider or context* supplied to the portal container, a scoped CSS variable root, or an isolated container/iframe/shadow boundary for the preview.
 3. **What is the user-visible cost?** Whole shell flips direction; sibling demos change; state persists across navigation.
-4. **Does the project rule allow it?** If the active profile says "preview state must not leak into the site shell" (ESTABLISHED), a documented global mutation is a *conflict with the project's own rule* — report it as such (P1 or P2 by impact), quoting both the rule and the rationale, rather than as an unknown bug.
+4. **Does the project rule allow it?** If the active profile says "preview state must not leak into the site shell" (ESTABLISHED), a documented global mutation is a *conflict with the project's own rule* — report it as a rule conflict, quoting both the rule and the rationale, rather than as an unknown bug. Severity per `severity.md` rule 7: **P1 / needs owner decision** when the rule is ESTABLISHED and the effect on the shell is real or likely; **P2** when no project rule is violated.
+5. **Verify the rationale if cheap.** A comment that says "measured: the portaled node stayed LTR" is a claim; confirm it (or label it INFERENCE) before accepting it as the reason a scoped approach is impossible.
+6. **Check the collateral.** Global direction/theme mutation forces the *shell* to cope: physical-property styles in the shell, other widgets that had to be patched to stop forcing a direction. Report these as consequences of the same root cause, once.
 
 Do not blindly demand an iframe per demo: the cost (weight, loss of shared theme,
 many static pages) may be justified. Present the options with costs.
@@ -60,5 +62,8 @@ Use a negative control (see `verification.md`) to prove the test can fail.
 
 ## Severity hints
 
-Unintended global leakage → P1. Intended-but-undisclosed global effect → P2.
-Disclosed, rule-conflicting trade-off → P2 plus an explicit audit question.
+Unintended global leakage → P1. Intended-but-undisclosed global effect → P2 (P1 if it conflicts with an ESTABLISHED rule).
+Disclosed trade-off with no conflicting project rule → P2 plus an explicit audit question.
+Disclosed trade-off conflicting with an ESTABLISHED rule, with real shell effect → P1, needs owner decision (see `severity.md`).
+
+This lens applies to any preview gallery, including native catalog/sample apps, not only web docs sites.

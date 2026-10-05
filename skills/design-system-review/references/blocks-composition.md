@@ -44,4 +44,6 @@ the **block composition**, or **demo-only code** (see root-cause hierarchy in
 ## Severity hints
 
 Contradictory critical state or inaccessible main interaction → P1. Missing
-empty/error state in a data-bearing block → P2. Visual rhythm → P3.
+empty/error state in a **data-bearing** block → P2 (not applicable to a purely presentational/toggle block — say "n/a"). Placeholder data not labelled as placeholder → P3, P2 if it could be mistaken for real records. Visual rhythm → P3.
+
+Judge native blocks by *equivalent capability and semantics*, not by web mechanisms (e.g. do not demand `aria-labelledby` of SwiftUI; ask whether the row's name, description and state are exposed to the platform's AT).

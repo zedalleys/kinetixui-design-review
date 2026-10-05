@@ -25,6 +25,10 @@ API docs), what is hand-written vs. generated, how examples are produced
 - **No aspirational functionality.** Planned features must be labelled as planned or absent.
 - **Versioning.** Docs match the version shown; removed APIs not still documented.
 
+## When docs and code disagree
+
+Treat the **code and tests as FACT** and the contradicting doc as the finding (stale or aspirational documentation), unless the doc records an *approved decision the code has not yet implemented*. Prefer fixing the doc/decision record that is wrong; a ledger that says "removed" about something that exists is a truthfulness defect (P2, P1 if it misleads adoption decisions).
+
 ## Customization discoverability
 
 For extensible systems, a user must be able to discover **without reading source**:

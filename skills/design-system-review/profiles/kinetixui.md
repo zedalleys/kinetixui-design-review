@@ -37,7 +37,7 @@ A cross-platform design-system infrastructure: one canonical token contract comp
 2. **Prefer semantic tokens in components** over primitives; local values need justification. Basis: `TOKENS.md` layer model, `check:token-contract`.
 3. **Spacing is 8-unit oriented with a 4-unit half-step**, guarded by `pnpm check:grid`. Basis: `TOKENS.md`. Still apply core spatial-clearance audit — grid compliance ≠ correct geometry.
 4. **Components are implemented natively per platform.** Parity = equivalent capability/semantics/accessibility/contract, never identical source or pixels. Basis: contribution docs; platform packages. Do not demand React patterns of native packages.
-5. **Manifests are the source of platform truth** (`components.manifest.json`, `blocks.manifest.json`, `platform-parity.json`). Use the five-stage vocabulary (DEFINED/GENERATED/IMPLEMENTED/CONSUMED/VERIFIED); *maturity* of a package (stable/preview) is a product decision and separate from *verification* (derived). Cross-check manifest claims against source for any claim you report.
+5. **Manifests are the source of platform truth** (`components.manifest.json`, `blocks.manifest.json`, `platform-parity.json`). Use the five-stage vocabulary (DEFINED/GENERATED/IMPLEMENTED/CONSUMED/VERIFIED); *maturity* of a package (stable/preview) is a product decision and separate from *verification* (derived) — report both, and judge only whether public docs promise more than the evidence supports. Cross-check manifest claims against source for any claim you report, and distinguish component-specific tests from generic sweeps (see core `cross-platform.md`).
 6. **Preview state must not leak into the site shell.** Component-preview controls (direction, theme, etc.) must not unexpectedly change unrelated docs UI. *Basis: explicit project decision (owner-stated requirement for this profile).* A documented global-by-design mechanism that conflicts with this rule is reported as a rule conflict (see core `preview-isolation.md`), not as an unknown bug.
 7. **RTL requires both** logical properties and the direction context (`KinetixDirectionProvider` over Radix `DirectionContext`) for portaled primitives. Basis: `RTL.md`.
 8. **Components vs blocks are reviewed separately**; a block can fail while its components pass.
@@ -47,7 +47,7 @@ A cross-platform design-system infrastructure: one canonical token contract comp
 
 ### PROVISIONAL
 
-- **Theme customization UX:** a hybrid of brand-seed generation plus semantic overrides may be the best fit; raw palette editing may be too heavy. Not settled — evaluate against the actual theme-creation flow (`packages/create-theme`, `apps/web/src/app/themes`, `create`) and report evidence; verify contrast and dark-mode derivation before recommending any generator.
+- **Theme customization UX:** a hybrid of brand-seed generation plus semantic overrides may be the best fit; raw palette editing may be too heavy. Not settled — **first discover what the repository already ships** (`packages/create-theme`, `apps/web/src/app/themes`, `create`) and evaluate *that* (determinism, override/reset, dark derivation, per-role validation coverage including non-text pairs) rather than proposing a generator from scratch. Report evidence either way.
 - **Standard UI affordances should come from an icon contract** (default + replaceable) on every platform, not hard-coded Unicode glyphs. Support: core icon principle and `check:icons`; the *per-platform shape* of that contract is not settled.
 - **Block quality bar** (empty/loading/error states required for data-bearing blocks) — applied in practice, not codified.
 
@@ -61,20 +61,20 @@ A cross-platform design-system infrastructure: one canonical token contract comp
 
 ## Regression scenarios
 
-Reusable checks from real dogfooding findings. They are **scenarios, not universal truths**; each says what to verify.
+Reusable checks from real dogfooding findings. They are **scenarios, not universal truths**; each says what to verify. Run a scenario only when the scope touches it — "none applies" is a valid outcome (e.g. a plain Button review). No block-specific scenario is codified yet; review blocks with the core `blocks-composition.md`.
 
 | Scenario | Check | Expected truth | Verify with |
 |---|---|---|---|
 | **Preview isolation** | Switch a Fields (form-field) preview from LTR → RTL | The whole docs website does not change direction (shell, nav, other demos) — unless a disclosed, owner-approved exception | Browser: diff `<html dir>`, shell computed `direction`; or a regression test |
 | **Spatial quality** | Thermostat plus/minus controls vs radial gauge | Deliberate visual, interaction and focus clearance from gauge geometry at stated viewports/zoom; not an arbitrary margin | Measured bounding rects; look for stroke/transform bound mismatches (`spatial-quality.md`) |
-| **State fidelity** | Door-lock text / control / illustration | All agree; domain-correct (UNLOCKED ≠ OPEN) | Drive each state; compare text, control state, a11y state, illustration |
+| **State fidelity** | Door-lock text / control / illustration | All agree; domain-correct (UNLOCKED ≠ OPEN). If the art is declared decorative (`aria-hidden`, state carried in words), check that it never contradicts the words, and report "art carries no lock state" as a note, not a contradiction | Drive each state; compare text, control state, a11y state, illustration |
 | **Light state** | Light device card on/off | The controlled-object visual meaningfully corresponds to on/off (not only a label change) | Render both states; check illustration derives from the state value |
 | **Icon architecture** | Standard UI affordances (chevrons, close, check) on native platforms | Not hard-coded Unicode glyphs just because a platform lacks a shared icon abstraction; follows or documents the platform icon contract | Search native sources for glyph strings in UI roles; judge per `icons.md` |
 | **Theme isolation** | Change a component/theme preview | Documentation shell is not unexpectedly recolored | Compare shell computed colors before/after; check class/attribute writes on root |
 
-## Gates (consult and run when relevant; don't reinvent)
+## Gates (consult and run when relevant, within the core's *gate safety* rules; don't reinvent)
 
-`pnpm check:grid` · `check:contrast` · `check:token-contract` · `check:rtl` · `check:icons` · `check:type-scale` · `check:typography` · `check:a11y-coverage` · `check:a11y-browser` · `check:large-text` · `check:motion` · `check:native-motion` · `check:platform-source` / `platform:matrix` · `check:manifest` · `check:verification` · `check:blocks` / `check:block-source` · `check:releases` · `typecheck` · `lint` · `test`. Native toolchains (Xcode/Gradle/Flutter) are normally absent locally; their CI workflows (`native-*.yml`) are the compile check — mark native findings **source-only** when you did not run them.
+`pnpm check:grid` · `check:contrast` · `check:token-contract` · `check:rtl` · `check:icons` · `check:type-scale` · `check:typography` · `check:a11y-coverage` · `check:a11y-browser` · `check:large-text` · `check:motion` · `check:native-motion` · `check:platform-source` / `platform:matrix` · `check:manifest` · `check:verification` · `check:blocks` / `check:block-source` · `check:releases` · `typecheck` · `lint` · `test`. Dependencies may be absent in a fresh checkout — do not install them for a read-only review; those gates become Limitations. Native toolchains (Xcode/Gradle/Flutter) are normally absent locally; their CI workflows (`native-*.yml`) are the compile check — mark native findings **source-only** when you did not run them.
 
 ## Do not
 

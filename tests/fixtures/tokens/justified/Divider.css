@@ -1,0 +1,4 @@
+/* Hairline: intentionally 1px regardless of density (device-pixel crisp). Not a spacing decision. */
+.divider { height: 1px; background: var(--color-action-bg); }
+/* Illustration geometry: arc path coordinates are artwork, not layout. */
+.arc { d: path("M 3 47 A 44 44 0 0 1 91 47"); }

@@ -1,0 +1,13 @@
+:root {
+  /* primitives */
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --white: #ffffff;
+  /* semantic roles (what components should consume) */
+  --color-action-bg: var(--blue-600);
+  --color-action-bg-hover: var(--blue-500);
+  --color-action-fg: var(--white);
+  --space-2: 8px;
+  --space-3: 12px;
+  --radius-control: 6px;
+}

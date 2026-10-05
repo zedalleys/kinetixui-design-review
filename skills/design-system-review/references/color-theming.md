@@ -18,6 +18,8 @@ consumption — or the project's actual equivalent. Identify which themes exist
 
 ## Theme customization UX (only if the project lets users customize)
 
+**First discover what already exists** — a seed/generator, override layers, reset, export targets. The question is usually "is the existing approach sound and complete?", not "should we add one?". Audit the generator's *validation coverage*: text pairs only, or also non-text pairs (borders, input edges, focus ring, chart series), dark derivation, and whether generated neutrals do at least as well as the shipped baseline.
+
 Compare what exists with these models and recommend based on evidence:
 
 | Model | Fits when | Risk |

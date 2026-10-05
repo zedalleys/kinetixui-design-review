@@ -63,6 +63,10 @@ Prefer the project's own scripts/gates over inventing checks. Do not copy volati
 
 A profile is `profiles/<name>.md` in this skill: project-specific invariants, discovery locations, regression scenarios — classified **ESTABLISHED / PROVISIONAL / AUDIT QUESTION**. Load one when the user names it ("use the kinetixui profile") or when repository evidence clearly matches the profile's detection section. Without a profile, run the generic core. To add one, see `profiles/README.md`. Profiles never loosen evidence requirements.
 
+**Path note:** `references/` and `profiles/` paths are relative to *this skill's directory* (the base directory shown when the skill loads), **not** the repository under review. Read them from there.
+
+A profile's regression scenarios are checks to run *when applicable*. "No scenario applies to this scope" is a valid result; do not stretch one to fit. A profile rule that the repository itself contradicts (for example a documented, deliberate design) is reported as a **rule conflict** for the owner to adjudicate — see `references/severity.md`.
+
 ## Step 2 — UNDERSTAND the need
 
 For UI/product-facing work state **REAL USER NEED**: what is the user trying to accomplish? Do this *before* discussing styling.
@@ -72,7 +76,21 @@ For complex product surfaces, apply a light simplification sequence — **REMOVE
 
 ## Step 3 — AUDIT
 
-Choose dimensions by scope; load only the references you need (progressive disclosure):
+Choose dimensions by scope; load only the references you need (progressive disclosure). Starting points when the user gave no dimensions:
+
+| Scope | Load at minimum |
+|---|---|
+| Interactive component (button, select, dialog) | `component-api`, `accessibility`, `tokens`, `state-fidelity`; add `rtl-directionality` if it has direction-dependent layout or overlays, `icons` if it has icons, `motion` if it animates |
+| Display/composite component (card, table, chart) | `tokens`, `responsive`, `spatial-quality`, `accessibility`; `rtl-directionality` for layout |
+| Block / composed experience | `blocks-composition` + the references it names |
+| Stateful device/domain widget | `state-fidelity`, `spatial-quality`, `accessibility`, demo truthfulness |
+| Docs page / preview infrastructure | `preview-isolation`, `documentation`, `rtl-directionality`, `color-theming` (isolation) |
+| Multi-platform claim | `cross-platform` (+ `verification`) and the references for any finding you report |
+| Release | `verification`, `severity`, `documentation`, `cross-platform` |
+
+If you report a finding in a dimension whose reference you did not load, load it first.
+
+The full list:
 
 | Dimension | Reference |
 |---|---|
@@ -94,6 +112,8 @@ Choose dimensions by scope; load only the references you need (progressive discl
 | Evidence, verification, negative controls | `references/verification.md` |
 | Severity and verdicts | `references/severity.md` |
 
+**Classify what you are reviewing** by role, not folder: package primitive, block, preview infrastructure, or demo/showcase code. Showcase code is not public API, but it *is* governed by state fidelity, demo truthfulness and isolation, because evaluators judge the system by it.
+
 Order: **structural correctness first** (state, semantics, tokens, API, isolation), **then** visual hierarchy and polish (primary action, typography, density, grouping, borders, radius, shadow, icon optical balance). Do not fix architecture problems with polish.
 
 ### Root-cause hierarchy
@@ -110,7 +130,9 @@ Don't create abstractions where only one legitimate case exists. Report one root
 
 ## Step 4 — Report (scale to scope)
 
-For a **small scope**, collapse to: Verdict · Scope · key Findings (with evidence labels) · Recommendations · Limitations. For a **broad audit or release**, use the full structure:
+**The verdict must follow the findings** (`references/severity.md`): FAIL requires at least one P0/P1; P2/P3-only reports are PASS or PASS WITH NOTES. If you feel a FAIL is warranted, a finding must justify P1 on evidence — raise the finding, not the verdict.
+
+For a **small scope**, collapse to: Verdict · Scope · key Findings (with evidence labels) · Recommendations · Limitations (≈1 page). For a **broad audit or release**, use the full structure:
 
 ```
 ## Verdict            PASS | PASS WITH NOTES | FAIL   (release: READY | READY WITH NOTES | NOT READY)
@@ -140,6 +162,10 @@ Omit empty sections. Never say "all components verified" unless all were; state 
 5. **No broad redesign.** If a **breaking change** looks necessary: **STOP → explain → propose a migration**, unless the user explicitly authorized breaking changes.
 6. For high-value gates, consider a **negative control** (`references/verification.md`): inject the known failure temporarily, prove the gate catches it, restore, confirm clean. Never commit sabotage.
 7. Do not commit, push, or open PRs unless the user asked.
+
+## Read-only discipline and running gates
+
+`audit` and every review mode must leave the repository as it was found. Running the project's own gates is encouraged **only if it is safe**; see "Gate safety" in `references/verification.md` (no installs, no generators that write into the tree, record `git status` before/after, and say which gates you did **not** run and why). Unrun gates are Limitations, not silent omissions.
 
 ## Release mode
 

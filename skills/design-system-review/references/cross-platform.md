@@ -28,6 +28,18 @@ DEFINED at best until you have seen implementation and tests. If the project
 already generates a parity/verification report, treat it as a **claim** to spot-check
 against source, not as ground truth.
 
+### Reading verification evidence
+
+- Distinguish **component-specific** evidence (a test that exercises this component) from **generic sweeps** (axe over every story, a smoke fixture list that happens to include it, a keyword match in a test range). A sweep is real but *indirect*: it proves "builds / has no scan violations in the rendered state", not behavior specific to this component (popup alignment, open-state semantics). Record it as indirect, and say what remains unproven.
+- A keyword hit in a test file is a *lead*, not coverage. Open the test to confirm.
+- Line ranges and counts in generated reports rot; re-derive what you cite.
+- A project may keep **package maturity** (a product label) separate from **verification level** (derived). Report both; do not adjudicate between them unless public docs promise more than the evidence supports. A *catalogue-level* gap (a platform with an incomplete catalogue) is not a defect of a component already declared "planned" there.
+- If a platform's chosen verification tier is compile-in-CI, flag missing behavior tests as a note, not a failure.
+
+### Matrix rendering
+
+One row per platform, columns DEFINED / GENERATED / IMPLEMENTED / CONSUMED / VERIFIED. In each cell give the evidence kind and mark **[src]** where the finding is source-only (toolchain not run) or **[idx]** where it relies on a generated index you did not re-derive. Show verification *kinds* (build, interaction, a11y, rtl, large text, …), each marked direct or indirect.
+
 ## What parity means
 
 - Equivalent **user capability**.

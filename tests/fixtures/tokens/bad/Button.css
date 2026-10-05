@@ -1,0 +1,8 @@
+/* reusable component shipped in the library */
+.btn {
+  background: #3b82f6;           /* equals --blue-500 primitive, bypasses the semantic role */
+  color: #fff;
+  padding: 7px 13px;             /* off the spacing scale, no reason given */
+  border-radius: 6px;
+}
+.btn:hover { background: #2f74e0; }  /* no token equals this */

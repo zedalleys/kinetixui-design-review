@@ -14,6 +14,10 @@ Every meaningful finding carries one or more labels:
 
 Write the label next to the claim, with a pointer (`path:line`, command, URL).
 
+**Computed claims.** A number you calculated from source values (e.g. a gap derived from stroke width, radius and class-resolved spacing) is **INFERENCE (computed)** unless every input was verified at runtime. Show the inputs and the arithmetic so it can be checked. Computed results justify "P1/P2 if confirmed", not an unqualified high severity.
+
+**Stated rationale is a claim.** Comments, ADRs and docs that explain a design ("measured: …", "VoiceOver reads this twice") are useful leads, not FACT about behavior. Cite them as stated, and verify the cheap ones.
+
 ## Choosing evidence by claim type
 
 | Claim about… | Prefer |
@@ -41,6 +45,23 @@ say how you sampled.
 - That a screenshot proves responsive quality — it proves one viewport.
 - That an automated a11y scan proves accessibility — it catches a subset.
 - That green CI proves design-system readiness.
+
+## Gate safety (read-only reviews)
+
+Project gates (`check:*`, tests, lint) are valuable evidence, but running them can change the repository (installs, caches, generated files). Rules:
+
+1. **Record state first:** `git status --porcelain` before; compare after. Gitignored caches (`node_modules`, `.turbo`) are acceptable; tracked-file changes are not — restore them and report.
+2. **No installs** (`pnpm install`, `npm ci`, `pod install`, `gradle` downloads) in a read-only review. If dependencies are absent, gates that need them are *not run* — a Limitation.
+3. **Prefer pure-check gates** (scripts that read files and print/exit). Before running one, skim it for write calls (`writeFile`, `--write`, generators without `--check`). Run `--check` variants, never the generating variant.
+4. **Test runners** may write caches/snapshots; run them only if their config is read-only-safe or you are in `fix` mode and the user allows it.
+5. Say what you ran (command, exit status) and what you skipped. A gate you did not run is never "passed".
+6. A *green gate is not proof* of a design property the gate was not built to check; a *tracked/known-failure gate result* reported by the project is a disclosed state, not a new failure.
+
+In `fix` mode you may run generators the project documents for the files you are changing, and must show the resulting diff.
+
+## Runtime evidence: when is it "available"?
+
+Runtime evidence (browser rendering, measured rects) is the default expectation for visual/spatial claims, but only if it is obtainable in a couple of commands: a browser binary exists or the project already ships a browser-based check, dependencies are present, and a dev/preview server can start without writes to tracked files. If not, **do not install heavyweight tooling for a read-only review**; use source reasoning, label geometry **INFERENCE (computed)**, set severities conditionally, and list the specific runtime check that would confirm each finding.
 
 ## Verification ladder (use what the environment offers)
 

@@ -32,7 +32,7 @@ contracts per component, known baselines/exemptions.
 
 - **Prefer native semantics.** "ARIA makes it accessible" is an anti-pattern. Do not add ARIA because an audit expects ARIA; first-rule-of-ARIA applies (use native if you can). Flag redundant or contradictory ARIA as a defect.
 - **Platform-appropriate.** Web: roles/ARIA/focus. SwiftUI/UIKit: accessibility traits, labels, Dynamic Type, VoiceOver. Compose: `semantics`, `contentDescription`, TalkBack, font scale. Flutter: `Semantics`, `MergeSemantics`, text scale factor. Don't demand web concepts of native code.
-- **Touch targets:** discover the declared target (design docs, tokens, tests) or the relevant platform convention. Do not hard-code a guessed universal size. **Never shrink a target to fix visual crowding** — fix composition (spacing, layout) instead.
+- **Touch targets:** discover the declared target (design docs, tokens, tests) or the relevant platform convention. Targets differ by platform (web WCAG minimums, iOS/Android/Flutter guidance); apply each platform's own, and do not port a number from one to another. Sizes derived from class names/line-heights are **INFERENCE (computed)** until measured. Do not hard-code a guessed universal size. **Never shrink a target to fix visual crowding** — fix composition (spacing, layout) instead.
 - **Focus visibility** must survive: custom themes, dark mode, cards/overlays with `overflow: hidden`, charts, and neighboring controls. Check clipping by ancestors.
 - **Overlays:** focus trap and restoration, `Escape`, background inert/hidden, portal direction.
 

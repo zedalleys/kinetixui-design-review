@@ -26,6 +26,10 @@ AUTHENTICATED. Before judging, establish the domain's actual state model (docs,
 types, enum) and check each representation against *that*, not against a
 convenient synonym.
 
+**Do not assume which states a visual should show.** If a device has modes (e.g. heat / eco / off), establish from the project's state model or docs which mode the art is meant to distinguish. Rendering a lower-power mode like the "off" state may be a deliberate simplification or a defect — when no state model decides it, report an **AUDIT QUESTION**, not a defect.
+
+**Decorative art that is honestly labelled** (e.g. `aria-hidden`, header says state is carried in words) is not a contradiction. Judge: (a) the text/control/a11y state agree with each other, (b) the art never asserts something false, (c) whether it *could* show the state it sits next to and the project claims it does. "The art cannot show state" is a note (P3/P2) unless the project claims otherwise; it is P1 only if the art *contradicts* a critical state.
+
 **Root cause:** is there a single source of state that all representations derive
 from (good), or do text/visual each keep their own flag (bug magnet)? Fix by
 deriving representations from one canonical value; do not patch each
