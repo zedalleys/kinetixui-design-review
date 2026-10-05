@@ -65,9 +65,8 @@ Verified against Claude Code 2.1.289 with its real CLI. Pick one.
 This repository is both a plugin and a one-plugin marketplace (`.claude-plugin/`).
 
 ```bash
-# Add the marketplace. A local checkout path was tested; a GitHub "owner/repo" source is supported
-# by `claude plugin marketplace add` but could not be tested before this repository is published.
-claude plugin marketplace add <path-to-this-repo-or-owner/kinetixui-design-review>
+# Add the marketplace. Tested from GitHub (zedalleys/kinetixui-design-review) and from a local checkout path.
+claude plugin marketplace add zedalleys/kinetixui-design-review
 
 # Install (user scope by default; --scope project|local also exist)
 claude plugin install kinetixui-design-review@kinetixui-design-review

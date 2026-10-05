@@ -21,13 +21,13 @@ This document defines the maturity levels, what evidence exists today, and what 
 4. **Native and non-web fixtures** exist (the current fixtures are small; native coverage is one SwiftUI fixture).
 5. **No recurring false-positive pattern** unresolved in the false-positive log.
 6. **Extended methodology re-dogfooded:** the System Model, finding classes, verification levels and degraded states exercised in full reviews of a real project (not only fixtures).
-7. Install instructions verified for the published source (a GitHub marketplace source and user-level skill directory were not testable before publication).
+7. Install instructions verified on a clean machine other than the authors' (the GitHub marketplace source has been tested once, from the authoring environment; the user-level `~/.claude/skills/` path and update/uninstall from the GitHub source have not).
 
 ## Current evidence
 
 | Area | Evidence | Limits |
 |---|---|---|
-| Installation and discovery | Plugin install/update/uninstall via the real CLI (isolated HOME), project-local copy and `--plugin-dir` all discovered under the `kinetixui-design-review` identity; `claude plugin validate --strict` passes | GitHub-hosted marketplace source, `~/.claude/skills/` and interactive `/plugin` forms untested |
+| Installation and discovery | Plugin install/update/uninstall via the real CLI from a local checkout (isolated HOME), project-local copy and `--plugin-dir` all discovered under the `kinetixui-design-review` identity; `claude plugin validate --strict` passes. **From GitHub:** `claude plugin marketplace add zedalleys/kinetixui-design-review` then `claude plugin install kinetixui-design-review@kinetixui-design-review` succeeded; `claude plugin list`/`details` showed v0.1.0 enabled, and a fresh session listed `kinetixui-design-review:kinetixui-design-review` (Claude Code 2.1.289) | Update/uninstall were not re-run against the GitHub source; `~/.claude/skills/` and interactive `/plugin` forms untested |
 | Earlier methodology on a real project | Six read-only reviews of the KinetixUI repository (component, stateful controls, block, RTL, theming, cross-platform) and two re-runs; see [DOGFOODING.md](DOGFOODING.md) | One project, run before the extensions; findings unconfirmed by maintainers; source-only evidence |
 | Extensions (System Model, capability discovery, classes, V0–V4, degraded states, adapters) | Static validation (`node tests/validate.mjs`) and small fixtures | Not yet used in a full review of a real project |
 | Fixtures | 17 cases (good/bad/false-positive controls, finding classes, Vue and SwiftUI adapter cases). Each has passed at least once on the current expectations (latest saved outputs: 17/17), across three runs interleaved with rule fixes — **not** one clean end-to-end run; two expectations were loosened to match a clarified rule. Details: [DOGFOODING.md](DOGFOODING.md#extended-methodology--fixture-validation-after-the-rename) | Small and mostly web-shaped; regex checks are a coarse tripwire; model output varies between runs |
