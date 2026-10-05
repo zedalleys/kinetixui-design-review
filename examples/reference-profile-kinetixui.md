@@ -1,4 +1,6 @@
-# Example: KinetixUI profile — real runs
+# Example: KinetixUI reference profile — real runs
+
+**Reference example only:** this is how the skill behaves when the labelled KinetixUI reference profile is loaded in a KinetixUI repository. The core skill does not depend on it. These runs predate the System Model, finding classes, verification levels and adapters, so their format differs from current output.
 
 These are **real outputs** from headless runs (`claude -p --plugin-dir . ...`) of this skill against the KinetixUI repository at commit `5db94f0`, using the `kinetixui` profile. They are included to show what a review looks like, **not** as confirmed defects:
 
@@ -7,13 +9,13 @@ These are **real outputs** from headless runs (`claude -p --plugin-dir . ...`) o
 - Outputs are lightly trimmed (the trailing "Skill feedback" sections were used to improve the skill, see [docs/DOGFOODING.md](../docs/DOGFOODING.md)).
 - Runs vary between invocations; two runs of the block review found different issues (see DOGFOODING).
 
-Other prompts used: `Use design-system-review in component mode with the kinetixui profile to review the Button component`, `... theme mode ... color/theming architecture`, `... cross-platform mode ... Select`, and a stateful-controls review of the IoT thermostat/door-lock/light examples.
+Other prompts used: `Use kinetixui-design-review in component mode with the kinetixui profile to review the Button component`, `... theme mode ... color/theming architecture`, `... cross-platform mode ... Select`, and a stateful-controls review of the IoT thermostat/door-lock/light examples.
 
 ---
 
 ## 1. RTL — "Does switching direction in a preview change unrelated site UI?"
 
-Prompt: `Use design-system-review in rtl mode with the kinetixui profile. Review the component-preview direction (LTR/RTL) control on the docs site and the Fields (field.tsx) preview: does switching direction in a preview change unrelated site UI?`
+Prompt: `Use kinetixui-design-review in rtl mode with the kinetixui profile. Review the component-preview direction (LTR/RTL) control on the docs site and the Fields (field.tsx) preview: does switching direction in a preview change unrelated site UI?`
 
 ## Verdict: **FAIL** (needs owner decision)
 
@@ -70,7 +72,7 @@ The profile asks whether a scoped provider can reach portals without mirroring t
 
 ## 2. Block — `settings-list`
 
-Prompt: `Use design-system-review in block mode with the kinetixui profile to review the 'settings-list' block.`
+Prompt: `Use kinetixui-design-review in block mode with the kinetixui profile to review the 'settings-list' block.`
 
 ## Verdict: PASS WITH NOTES, leaning to FAIL on Angular
 

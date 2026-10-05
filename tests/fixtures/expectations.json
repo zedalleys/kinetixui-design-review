@@ -1,5 +1,5 @@
 {
-  "$comment": "Methodology fixtures. Each case is run through the skill; 'expect' says what a correct review does. Matching is heuristic (regex) \u2014 the manual rubric in tests/RUBRIC.md is the authority.",
+  "$comment": "Methodology fixtures. Each case is run through the skill; 'expect' says what a correct review does. Matching is heuristic (regex) \u2014 the manual rubric in tests/RUBRIC.md is the authority. expect: flag (needs findings), no-flag (no P0-P2), notes (P2/P3 allowed, no P0/P1), tradeoff (disclosed decision; see maxSeverity).",
   "cases": [
     {
       "id": "tokens-good",
@@ -137,6 +137,79 @@
         "add (more )?margin|shrink the (button|target)|reduce the (button|target)"
       ],
       "note": "Control sits on the gauge ring. Must be measured, and the fix must be structural, not an arbitrary margin or a smaller target."
+    },
+    {
+      "id": "classes-inconsistency",
+      "path": "fixtures/classes/inconsistency",
+      "mode": "tokens",
+      "expect": "notes",
+      "mustMatch": [
+        "INCONSISTENCY",
+        "--color-brand",
+        "--color-action-bg"
+      ],
+      "mustNotMatch": [
+        "\\bDEFECT\\b[^\\n]{0,40}\\bP[0-1]\\b"
+      ],
+      "note": "Two parts disagree and no decision exists: INCONSISTENCY (P2 at most), not a DEFECT. No P0/P1."
+    },
+    {
+      "id": "classes-risk",
+      "path": "fixtures/classes/risk",
+      "mode": "component",
+      "expect": "notes",
+      "mustMatch": [
+        "RISK",
+        "300",
+        "confirm|check|test|shared token|couple"
+      ],
+      "note": "Duplicated duration that works today but can drift: RISK with a confirming check, not a DEFECT."
+    },
+    {
+      "id": "classes-opportunity",
+      "path": "fixtures/classes/opportunity",
+      "mode": "component",
+      "expect": "no-flag",
+      "mustMatch": [
+        "OPPORTUNITY",
+        "PASS"
+      ],
+      "mustNotMatch": [
+        "\\bDEFECT\\b"
+      ],
+      "note": "FALSE-POSITIVE CONTROL: correct, consistent duplicates are an OPPORTUNITY with no P-level; verdict PASS, never FAIL."
+    },
+    {
+      "id": "adapter-vue",
+      "path": "fixtures/adapters/vue-button",
+      "mode": "tokens",
+      "expect": "flag",
+      "mustMatch": [
+        "#3b82f6",
+        "--color-action-bg|token",
+        "scoped|slot|SFC|Vue"
+      ],
+      "mustNotMatch": [
+        "useState|useEffect|forwardRef|JSX"
+      ],
+      "maxSeverity": "P2",
+      "note": "Framework neutrality: judged with Vue mechanics (SFC/scoped/slot); no React idioms demanded. Hard-coded reusable color is P2."
+    },
+    {
+      "id": "adapter-swiftui",
+      "path": "fixtures/adapters/swiftui-card",
+      "mode": "accessibility",
+      "expect": "flag",
+      "mustMatch": [
+        "source-only|SOURCE-ONLY|V1",
+        "Dynamic Type|font",
+        "accessibilityLabel|VoiceOver|accessible name"
+      ],
+      "mustNotMatch": [
+        "aria-label|aria-labelledby|role="
+      ],
+      "minSeverity": "P1",
+      "note": "Native source-only review: reports source-only state; judges by SwiftUI idioms (accessibilityLabel, Dynamic Type); never demands ARIA. Glyph-only button without a name is P1."
     }
   ]
 }

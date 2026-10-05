@@ -1,5 +1,7 @@
 # Dogfooding record — v0.1.0
 
+> **History note.** The runs below were performed under the earlier working name `design-system-review`, **before** the System Model, capability discovery, finding classes, verification levels and inspection adapters were added. They validate the *earlier* methodology (and the KinetixUI reference profile) on one project; they do not validate the extensions. The extensions' own validation status is in [MATURITY.md](MATURITY.md). References to the "KinetixUI profile" mean what is now `profiles/reference/kinetixui-design-system.md`.
+
 What was run, what it found, what changed in the skill, and what is still weak. Everything here is a record of actual runs; nothing is projected.
 
 ## Method
@@ -68,4 +70,4 @@ What was run, what it found, what changed in the skill, and what is still weak. 
 
 ## Maturity
 
-**INTERNAL DOGFOOD.** See the README. Before any public announcement: dogfood on at least one structurally different project, add native and non-React fixtures, have a second person write a profile, and re-run all dogfood scenarios on the refined skill.
+**INTERNAL DOGFOOD.** See the README and [MATURITY.md](MATURITY.md). Before any public announcement: dogfood on at least one structurally different project, add native and non-React fixtures, have a second person write a profile, and re-run all dogfood scenarios on the refined skill.

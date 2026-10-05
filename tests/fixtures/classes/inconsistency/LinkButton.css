@@ -1,0 +1,3 @@
+/* Link-styled button: also a primary interactive surface in the product, but written with the brand token */
+.link-button { background: var(--color-brand); color: #fff; }
+/* No document in this fixture says which token a primary interactive surface must use. Today both are #2563eb. */

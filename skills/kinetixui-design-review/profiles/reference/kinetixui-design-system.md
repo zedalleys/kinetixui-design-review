@@ -1,4 +1,6 @@
-# KinetixUI profile
+# REFERENCE PROFILE (example): the KinetixUI design system
+
+> **Label:** this is a *reference/example profile* for the KinetixUI design system, published alongside the skill by its publisher. It is **not part of the core**. The core skill never depends on it and never loads it for other projects; load it only when the user names it or the Detection section clearly matches. Other projects should write their own profile (see `../README.md`) rather than adapt this one blindly.
 
 First reference profile and dogfooding target. Everything here is a *lead for
 discovery*; confirm against the repository you are actually reviewing. Do not

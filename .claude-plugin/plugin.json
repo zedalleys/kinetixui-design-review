@@ -1,9 +1,20 @@
 {
-  "name": "design-system-review",
-  "displayName": "Design System Review",
+  "name": "kinetixui-design-review",
+  "displayName": "KinetixUI Design Review",
   "version": "0.1.0",
-  "description": "A Claude Code skill for evidence-based design-system reviews: repository-aware audits of components, blocks, tokens, themes, icons, motion, RTL, accessibility, responsive behavior, docs and platform parity.",
+  "description": "Framework-neutral Claude Code skill for evidence-based design-system reviews (published by KinetixUI; works in projects that do not use KinetixUI). Discovers capabilities, builds a System Model, classes findings (DEFECT, INCONSISTENCY, RISK, OPPORTUNITY) and states evidence, confidence and verification level.",
   "license": "MIT",
-  "author": { "name": "design-system-review contributors" },
-  "keywords": ["design-system", "review", "accessibility", "tokens", "rtl", "components"]
+  "author": {
+    "name": "KinetixUI"
+  },
+  "keywords": [
+    "design-system",
+    "review",
+    "accessibility",
+    "tokens",
+    "rtl",
+    "components",
+    "framework-neutral",
+    "kinetixui"
+  ]
 }

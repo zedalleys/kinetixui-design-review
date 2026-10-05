@@ -1,0 +1,2 @@
+.panel { transition: opacity 300ms ease; }
+.panel[hidden] { opacity: 0; }

@@ -1,0 +1,2 @@
+/* Primary button: primary interactive surface */
+.btn-primary { background: var(--color-action-bg); color: #fff; }

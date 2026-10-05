@@ -6,12 +6,12 @@ have to. It never replaces discovery: it tells the reviewer *where to look* and
 
 ## Convention (v0.1)
 
-One Markdown file per project: `profiles/<project-name>.md`. No registry, no
+One Markdown file per project, in `profiles/` (or `profiles/reference/` for labelled reference/example profiles shipped with the skill): `profiles/<project-name>.md`. No registry, no
 code, no plugin framework — the skill loads a profile when (a) the user names it
-("use the kinetixui profile") or (b) repository evidence clearly matches its
+("use the <name> profile") or (b) repository evidence clearly matches its
 **Detection** section.
 
-Adding a profile requires **no edit to the core** (`SKILL.md` or `references/`).
+Adding a profile requires **no edit to the core** (`SKILL.md` or `references/`). The core never imports, names or depends on any profile; `profiles/reference/kinetixui-design-system.md` is an example of the format, labelled as such.
 
 ### Required sections
 

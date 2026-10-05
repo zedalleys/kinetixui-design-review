@@ -2,9 +2,9 @@
 
 No dates are promised. Maturity is earned by validation, not by calendar.
 
-## 0.1 — Core + KinetixUI dogfooding (this release)
+## 0.1 — Core, adapters and reference-project dogfooding (this release)
 
-Generic review core, discovery, modes, severity and evidence models, specialist references, profile convention, KinetixUI profile, fixtures, validator, initial dogfooding.
+Generic review core, discovery and capability discovery, System Model, finding classes, verification levels, inspection adapters, specialist references, profile convention, a KinetixUI reference profile, fixtures, validator, initial dogfooding. Maturity: INTERNAL DOGFOOD (criteria in `docs/MATURITY.md`).
 
 ## 0.2 — Fold in confirmed findings
 
@@ -20,7 +20,9 @@ Also: re-run all dogfood scenarios against the refined skill; tighten the report
 
 ## 0.x — Beyond one project
 
-- Dogfood on additional, structurally different design systems (single-platform, non-Tailwind, non-React, Storybook-driven).
+- Dogfood on additional, structurally different design systems (single-platform, non-Tailwind, non-React, Storybook-driven), **by reviewers outside the authors** — the evidence `docs/MATURITY.md` requires before maturity can change.
+- Exercise the Vue, Svelte and Web Components adapters against real projects; refine or retire adapter guidance that proves wrong.
+- Re-run all dogfood scenarios with the extended methodology (System Model, finding classes, levels).
 - A second profile written by someone who is not the core author, to test the profile convention.
 - A `claude plugin eval` suite (an interview-authored, with/without-plugin comparison) for the fixtures, once a maintainer has trusted the plugin directory for eval runs.
 - Native-first fixtures (SwiftUI, Compose, Flutter), since v0.1 fixtures are web-shaped.

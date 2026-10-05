@@ -24,7 +24,7 @@ let failed = 0;
 
 for (const c of cases.filter((c) => !only || only.includes(c.id))) {
   const dir = join(root, "tests", c.path);
-  const prompt = `Use design-system-review in ${c.mode} mode to review the fixture at ${dir}. It is a tiny, self-contained methodology fixture, not a full project: do not search elsewhere, do not modify files, and keep the report short. If a rule or decision is documented in the files, take it into account.`;
+  const prompt = `Use kinetixui-design-review in ${c.mode} mode to review the fixture at ${dir}. It is a tiny, self-contained methodology fixture, not a full project: do not search elsewhere, do not modify files, and keep the report short. If a rule or decision is documented in the files, take it into account.`;
   const a = ["--plugin-dir", root, "-p", prompt, "--allowedTools", "Read", "Grep", "Glob", "--disallowedTools", "Edit", "Write", "Bash", "--max-budget-usd", budget];
   if (model) a.push("--model", model);
   const r = spawnSync("claude", a, { encoding: "utf8", timeout: 600000, cwd: root });
@@ -34,10 +34,17 @@ for (const c of cases.filter((c) => !only || only.includes(c.id))) {
   if (!out.trim()) problems.push("empty output");
   for (const re of c.mustMatch ?? []) if (!new RegExp(re, "i").test(out)) problems.push(`missing /${re}/`);
   for (const re of c.mustNotMatch ?? []) if (new RegExp(re, "i").test(out)) problems.push(`forbidden /${re}/`);
-  // Severity labels used as finding markers: "P1", "**P1**", "[P1]" at the start of a bullet/heading/table cell.
-  const marks = [...out.matchAll(/(?:^|\n)\s*(?:[-*#>|]+\s*)*\**\[?(P[0-3])\b/g)].map((m) => m[1]);
+  // Severity markers: bullet/heading lines starting with P0-P3, or classed lines like "[DEFECT · P1 · FACT ...]" / "DEFECT · P1".
+  // Conditional findings ("P1 if confirmed") count as P2, as the skill's severity model specifies.
+  const marks = [];
+  for (const line of out.split("\n")) {
+    const m = line.match(/^\s*(?:[-*#>|]+\s*)*\**\[?(?:(?:DEFECT|INCONSISTENCY|RISK)[^P\n]{0,12})?\b(P[0-3])\b/);
+    if (!m) continue;
+    marks.push(/if confirmed/i.test(line) ? "P2" : m[1]);
+  }
   const worst = marks.length ? order[Math.min(...marks.map((m) => order.indexOf(m)))] : null;
   if (c.expect === "no-flag" && worst && order.indexOf(worst) <= 2) problems.push(`flagged ${worst} on a no-flag fixture`);
+  if (c.expect === "notes" && worst && order.indexOf(worst) <= 1) problems.push(`flagged ${worst} where only notes (P2/P3) are expected`);
   if (c.maxSeverity && worst && order.indexOf(worst) < order.indexOf(c.maxSeverity)) problems.push(`severity ${worst} exceeds max ${c.maxSeverity}`);
   if (c.minSeverity && (!worst || order.indexOf(worst) > order.indexOf(c.minSeverity))) problems.push(`no finding at ${c.minSeverity} or worse (worst: ${worst ?? "none"})`);
   if (c.expect === "flag" && !marks.length) problems.push("no severity-labelled findings");

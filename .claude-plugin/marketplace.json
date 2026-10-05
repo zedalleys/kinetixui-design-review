@@ -1,17 +1,17 @@
 {
-  "name": "design-system-review",
+  "name": "kinetixui-design-review",
   "owner": {
-    "name": "design-system-review contributors"
+    "name": "KinetixUI"
   },
-  "description": "Marketplace for the Design System Review Claude Code skill.",
+  "description": "Marketplace for the KinetixUI Design Review Claude Code skill.",
   "plugins": [
     {
-      "name": "design-system-review",
+      "name": "kinetixui-design-review",
       "source": "./",
-      "description": "Evidence-based design-system implementation review skill.",
+      "description": "Framework-neutral, evidence-based design-system review skill (KinetixUI Design Review).",
       "version": "0.1.0",
       "author": {
-        "name": "design-system-review contributors"
+        "name": "KinetixUI"
       }
     }
   ]
