@@ -1,0 +1,9 @@
+{
+  "name": "design-system-review",
+  "displayName": "Design System Review",
+  "version": "0.1.0",
+  "description": "A Claude Code skill for evidence-based design-system reviews: repository-aware audits of components, blocks, tokens, themes, icons, motion, RTL, accessibility, responsive behavior, docs and platform parity.",
+  "license": "MIT",
+  "author": { "name": "design-system-review contributors" },
+  "keywords": ["design-system", "review", "accessibility", "tokens", "rtl", "components"]
+}
