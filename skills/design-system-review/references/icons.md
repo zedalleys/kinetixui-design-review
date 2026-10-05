@@ -37,4 +37,4 @@ drift causing real bugs or a mapping check already in use).
 
 ## Severity hints
 
-Hard-coded glyphs for standard affordances in shared components → P2 (P1 if icon-only control lacks name or breaks RTL/AT). Inconsistent icon API across components → P2. Optical balance → P3.
+Hard-coded glyphs for standard affordances in shared components → P2. An **icon-only interactive control with no accessible name → P1** (P0 if it blocks a primary task) regardless of the glyph question. Broken RTL for a directional icon in a critical control → P1. Inconsistent icon API across components → P2. Optical balance → P3.

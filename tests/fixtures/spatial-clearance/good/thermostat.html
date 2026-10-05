@@ -1,6 +1,8 @@
 <!-- Gauge occupies its own box; controls live in a row below it with a 16px gap -->
 <div class="thermostat" style="display:grid;gap:16px;justify-items:center;width:200px">
-  <svg viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="16"/></svg>
+  <svg viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="16" opacity=".25"/>
+  <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="16" stroke-dasharray="231 578" transform="rotate(180 100 100)"/>
+  <!-- value arc: the current setpoint, data-bearing, starts at 9 o'clock where the minus button sits --></svg>
   <div style="display:flex;gap:16px">
     <button style="width:44px;height:44px" aria-label="Decrease">−</button>
     <button style="width:44px;height:44px" aria-label="Increase">+</button>

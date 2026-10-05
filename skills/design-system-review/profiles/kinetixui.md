@@ -27,7 +27,7 @@ A cross-platform design-system infrastructure: one canonical token contract comp
 | Contribution & platform rule | `CONTRIBUTING.md` → docs site contributing page |
 | Analytics | `apps/web/ANALYTICS.md`, `apps/web/src/lib/analytics.ts` |
 | Web / docs shell | `apps/web/src/app`, preview infrastructure in `apps/web/src/components/` |
-| Native packages | `packages/ui-swiftui`, `packages/ui-compose`, `packages/ui-flutter`; web: `packages/ui`, `packages/ui-angular` |
+| Native packages | `packages/ui-swiftui`, `packages/ui-compose`, `packages/ui-flutter`; web: `packages/ui`, `packages/ui-angular` (Angular primitives under `src/lib/`, block examples under `src/examples/blocks/`) |
 
 ## Rules
 
@@ -53,8 +53,9 @@ A cross-platform design-system infrastructure: one canonical token contract comp
 
 ### AUDIT QUESTIONS
 
+- For native blocks whose source is a fixture inside a test file, what is the intended verification tier (compile-only vs behavior)? Report missing behavior tests as a note until the project says otherwise.
 - Does Compose (and the other native packages) need a stronger default icon architecture?
-- Is a global `<html dir>` mutation by preview controls the right trade-off for portaled overlays, or can a scoped direction provider reach portals without shell mirroring?
+- **Mechanism, not requirement:** rule 6 is the requirement (shell isolation). The open question is *how to satisfy it* — can a scoped direction provider or portal container reach portaled overlays without mutating `<html dir>`? Until a mechanism exists, a disclosed global mutation is a rule conflict needing an owner decision (core `severity.md` rule 7), not an unknown bug.
 - Where should theme-preview scope end (component, page, shell)? Is the site theme control intentionally the only global one?
 - Do hand-composed IoT illustrations need a state-to-visual single-source contract?
 - Which verification kinds should be required before a platform can be described as "supported" in public docs?

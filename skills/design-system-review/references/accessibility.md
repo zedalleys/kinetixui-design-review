@@ -34,6 +34,7 @@ contracts per component, known baselines/exemptions.
 - **Platform-appropriate.** Web: roles/ARIA/focus. SwiftUI/UIKit: accessibility traits, labels, Dynamic Type, VoiceOver. Compose: `semantics`, `contentDescription`, TalkBack, font scale. Flutter: `Semantics`, `MergeSemantics`, text scale factor. Don't demand web concepts of native code.
 - **Touch targets:** discover the declared target (design docs, tokens, tests) or the relevant platform convention. Targets differ by platform (web WCAG minimums, iOS/Android/Flutter guidance); apply each platform's own, and do not port a number from one to another. Sizes derived from class names/line-heights are **INFERENCE (computed)** until measured. Do not hard-code a guessed universal size. **Never shrink a target to fix visual crowding** — fix composition (spacing, layout) instead.
 - **Focus visibility** must survive: custom themes, dark mode, cards/overlays with `overflow: hidden`, charts, and neighboring controls. Check clipping by ancestors.
+- **Name reaches the semantic element.** Verify the accessible name/description/state lands on the *focusable, role-bearing* element, not merely on a wrapper or component host. In component frameworks, binding an attribute on a component's host element (e.g. Angular `[attr.aria-labelledby]` vs an aliased input, Vue/Svelte attribute fallthrough, a web component's shadow boundary) may never reach the inner control. A test that asserts only the host attribute proves nothing about the control's name — check the inner element's computed name.
 - **Overlays:** focus trap and restoration, `Escape`, background inert/hidden, portal direction.
 
 ## Evidence
@@ -50,6 +51,6 @@ and computed contrast. Record which assistive-tech behaviors were *not* tested
 
 ## Severity hints
 
-Inaccessible primary interaction, keyboard trap, unnamed primary control → P0/P1.
+Inaccessible primary interaction or keyboard trap → P0. **Any interactive control with no accessible name → P1** (P0 if it is the only way to complete a primary task).
 Missing state exposure on a secondary control → P1/P2. Name/label mismatch with
 low impact → P2. Document the standard you judged against.

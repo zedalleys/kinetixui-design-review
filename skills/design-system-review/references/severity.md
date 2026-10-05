@@ -48,6 +48,10 @@ choose the lower one and say what evidence would raise it.
 - **PASS WITH NOTES** — no P0/P1; P2/P3 findings worth tracking.
 - **FAIL** — any P0 or P1 within the reviewed scope.
 
+**Conditional findings.** An INFERENCE-backed item that would be P0/P1 if confirmed is listed as **"P1 if confirmed"** (never a bare P1), counts as P2 for the verdict, and its confirming check heads the Recommendations.
+
+**Annotations.** A verdict may carry a short annotation — e.g. `FAIL — needs owner decision` for a disclosed trade-off that conflicts with an ESTABLISHED rule — but the three verdict words themselves do not change.
+
 The verdict is *derived from the findings*: never FAIL on P2/P3-only findings, and never PASS with an open P0/P1. If a finding is "P1 if confirmed" and you could not confirm it, the verdict is PASS WITH NOTES and the confirming check heads the Recommendations.
 
 A PASS only covers the reviewed scope. Always state the scope.

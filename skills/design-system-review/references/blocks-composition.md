@@ -30,7 +30,8 @@ ownership of *implementation correctness*.
 - **Focus & keyboard** — logical order across the whole composition; no clipped focus rings inside cards/overflow containers.
 - **Theme** — works in every supported theme; no hard-coded colors that survive theme change.
 - **RTL** — mirrored layout order and icons; nested LTR islands (`rtl-directionality.md`).
-- **Accessibility** — headings/landmarks, announcement of dynamic updates, label associations.
+- **Accessibility** — headings/landmarks, announcement of dynamic updates, label associations. For controls inside rows/cards (switches, checkboxes, menus), confirm each platform exposes the row's visible title as the control's name, plus description and state, on the *semantic element* — and that one platform's mechanism isn't copied by another as a mere attribute.
+- **Native blocks whose "source" is a fixture inside a test file:** review the fixture as the block's source (composition, semantics, states) and report the strength of the surrounding test separately.
 - **Density** — information density consistent with the intended use, not simply "as dense as fits".
 - **Truthfulness** — placeholder data labelled; no implied backend.
 - **Source health** — blocks that are copied into consumer projects: do they import only public APIs, and do they compile standalone?

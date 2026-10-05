@@ -26,6 +26,8 @@ Never REDESIGN → JUSTIFY. `FIX` runs only in `fix` mode.
 
 Determine **mode(s)** and **scope** (one component? a block? the whole library? a PR?). Modes compose (e.g. `component` + `accessibility` + `rtl`).
 
+Default references per mode (load more if a finding needs them): `tokens` → tokens; `theme` → color-theming (+ tokens); `icons` → icons; `motion` → motion; `accessibility` → accessibility (+ responsive for zoom); `rtl` → rtl-directionality, and preview-isolation whenever previews/demos or a docs shell are in scope; `docs` → documentation; `cross-platform` → cross-platform; `block` → blocks-composition; `release` → verification, severity.
+
 | Mode | Does |
 |---|---|
 | `audit` | Inspect and report only (default for vague requests) |

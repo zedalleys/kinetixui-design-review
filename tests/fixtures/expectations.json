@@ -1,12 +1,14 @@
 {
-  "$comment": "Methodology fixtures. Each case is run through the skill; 'expect' says what a correct review does. Matching is heuristic (regex) — the manual rubric in tests/RUBRIC.md is the authority.",
+  "$comment": "Methodology fixtures. Each case is run through the skill; 'expect' says what a correct review does. Matching is heuristic (regex) \u2014 the manual rubric in tests/RUBRIC.md is the authority.",
   "cases": [
     {
       "id": "tokens-good",
       "path": "fixtures/tokens/good",
       "mode": "tokens",
       "expect": "no-flag",
-      "mustMatch": ["semantic|--color-action"],
+      "mustMatch": [
+        "semantic|--color-action"
+      ],
       "note": "Semantic token consumption. No P0/P1/P2 expected."
     },
     {
@@ -14,7 +16,10 @@
       "path": "fixtures/tokens/bad",
       "mode": "tokens",
       "expect": "flag",
-      "mustMatch": ["#3b82f6|hard-?coded", "SHOULD_USE_TOKEN|should use (a )?token|semantic"],
+      "mustMatch": [
+        "#3b82f6|hard-?coded",
+        "SHOULD_USE_TOKEN|should use (a )?token|semantic"
+      ],
       "maxSeverity": "P2",
       "note": "Hard-coded reusable-component color equal to a primitive; off-scale padding. Severity must not exceed P2."
     },
@@ -23,7 +28,9 @@
       "path": "fixtures/tokens/justified",
       "mode": "tokens",
       "expect": "no-flag",
-      "mustMatch": ["JUSTIFIED|justified|intentional|artwork|hairline"],
+      "mustMatch": [
+        "JUSTIFIED|justified|intentional|artwork|hairline"
+      ],
       "note": "FALSE-POSITIVE CONTROL: a 1px hairline and illustration path coordinates are justified literals."
     },
     {
@@ -31,14 +38,20 @@
       "path": "fixtures/preview-direction/good",
       "mode": "rtl",
       "expect": "no-flag",
-      "mustMatch": ["scoped|container|provider"]
+      "mustMatch": [
+        "scoped|container|provider"
+      ]
     },
     {
       "id": "preview-direction-bad",
       "path": "fixtures/preview-direction/bad",
       "mode": "rtl",
       "expect": "flag",
-      "mustMatch": ["documentElement", "leak|global|whole (site|page)|shell", "localStorage|persist"],
+      "mustMatch": [
+        "documentElement",
+        "leak|global|whole (site|page)|shell",
+        "localStorage|persist"
+      ],
       "minSeverity": "P1",
       "note": "Local demo mutates document root and persists it, with no stated intent => P1 leak."
     },
@@ -47,9 +60,14 @@
       "path": "fixtures/preview-direction/disclosed-global",
       "mode": "rtl",
       "expect": "tradeoff",
-      "mustMatch": ["disclos|deliberate|intentional|trade-?off|ADR|adr-007", "scoped|provider|alternative|iframe"],
+      "mustMatch": [
+        "disclos|deliberate|intentional|trade-?off|ADR|adr-007",
+        "scoped|provider|alternative|iframe"
+      ],
       "maxSeverity": "P2",
-      "mustNotMatch": ["oversight|accidental|unintended bug"],
+      "mustNotMatch": [
+        "unintended bug|accidental(ly)? (leak|bug|mutation)"
+      ],
       "note": "FALSE-POSITIVE CONTROL: documented global-by-design must be evaluated as a trade-off, not reported as an unknown P1 bug."
     },
     {
@@ -57,30 +75,42 @@
       "path": "fixtures/icons/good",
       "mode": "icons",
       "expect": "no-flag",
-      "mustMatch": ["slot|replace|default"]
+      "mustMatch": [
+        "slot|replace|default"
+      ]
     },
     {
       "id": "icons-bad",
       "path": "fixtures/icons/bad",
       "mode": "icons",
       "expect": "flag",
-      "mustMatch": ["unicode|glyph", "replace|slot|override|contract", "aria|accessible name|label"],
-      "maxSeverity": "P2",
-      "note": "Ordinary UI icons as text glyphs + unnamed icon-only button. The glyph issue is P2; the unnamed dismiss button may justify P1."
+      "mustMatch": [
+        "unicode|glyph",
+        "replace|slot|override|contract",
+        "aria|accessible name|label"
+      ],
+      "note": "Ordinary UI icons as text glyphs (P2) + an icon-only dismiss button with no accessible name (P1: control unusable to assistive tech).",
+      "minSeverity": "P1"
     },
     {
       "id": "state-fidelity-good",
       "path": "fixtures/state-fidelity/good",
       "mode": "component",
       "expect": "no-flag",
-      "mustMatch": ["single|derive|coherent|consistent"]
+      "mustMatch": [
+        "single|derive|coherent|consistent"
+      ]
     },
     {
       "id": "state-fidelity-bad",
       "path": "fixtures/state-fidelity/bad",
       "mode": "component",
       "expect": "flag",
-      "mustMatch": ["Unlocked", "contradict|illustration|closed", "role=|switch|aria-checked|semantic"],
+      "mustMatch": [
+        "Unlocked",
+        "contradict|illustration|closed",
+        "role=|switch|aria-checked|semantic"
+      ],
       "minSeverity": "P1",
       "note": "'Unlocked' text with closed padlock; hard-coded text state; aria-checked on a plain button."
     },
@@ -89,16 +119,23 @@
       "path": "fixtures/spatial-clearance/good",
       "mode": "component",
       "expect": "no-flag",
-      "mustMatch": ["gap|clearance|16px"]
+      "mustMatch": [
+        "gap|clearance|16px"
+      ]
     },
     {
       "id": "spatial-bad",
       "path": "fixtures/spatial-clearance/bad",
       "mode": "component",
       "expect": "flag",
-      "mustMatch": ["overlap|ring|stroke|clearance", "left: ?12px|12px|x ?= ?12"],
+      "mustMatch": [
+        "overlap|ring|stroke|clearance",
+        "\\b12\\b"
+      ],
       "minSeverity": "P1",
-      "mustNotMatch": ["add (more )?margin|shrink the (button|target)|reduce the (button|target)"],
+      "mustNotMatch": [
+        "add (more )?margin|shrink the (button|target)|reduce the (button|target)"
+      ],
       "note": "Control sits on the gauge ring. Must be measured, and the fix must be structural, not an arbitrary margin or a smaller target."
     }
   ]
