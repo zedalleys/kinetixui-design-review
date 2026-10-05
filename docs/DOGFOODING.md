@@ -71,3 +71,19 @@ What was run, what it found, what changed in the skill, and what is still weak. 
 ## Maturity
 
 **INTERNAL DOGFOOD.** See the README and [MATURITY.md](MATURITY.md). Before any public announcement: dogfood on at least one structurally different project, add native and non-React fixtures, have a second person write a profile, and re-run all dogfood scenarios on the refined skill.
+
+
+## Extended methodology — fixture validation (after the rename)
+
+Run on `kinetixui-design-review` after adding the System Model, capability discovery, finding classes, verification levels, degraded states and adapters. 17 fixture cases (the earlier 12 plus finding-class cases `classes-inconsistency`, `classes-risk`, `classes-opportunity` and non-React adapter cases `adapter-vue`, `adapter-swiftui`), headless, read-only tools only.
+
+What happened, in order:
+
+1. **First full run:** 10 of 17 passed. Three failures were an organization **spend-limit error** returned as the model output (not skill behavior) and were re-run; two were **runner bugs** (the parser did not recognise `P1-if-confirmed` or numbered/backticked finding lines); two were real.
+2. **Real finding 1 — over-downgraded geometry.** The new rule "computed claims are INFERENCE" classed arithmetic on literal pixel values in static markup as an unconfirmed RISK (so `spatial-bad` returned PASS WITH NOTES). Fixed: exact arithmetic on literal inputs is FACT at V1 (`verification.md`); re-run returned P1.
+3. **Real finding 2 — ambiguity about glyph-named controls.** Reviews reasoned that a raw glyph (`✕`) does supply an accessible name, just a meaningless one, and rated it P2 rather than P1. Rule clarified (`accessibility.md`, `icons.md`): no name → P1; a name that conveys no purpose → P2 (P1 if empty/ambiguous in practice or the control is primary). The `icons-bad` and `adapter-swiftui` expectations were changed from "P1 or worse" to "must not exceed P1", **to match the clarified rule — this loosens those two tests.**
+4. **Expectation adjustments (reviews were correct):** `classes-opportunity` forbade the word DEFECT although the review wrote "DEFECT: none"; `state-fidelity-good` became a "notes" case after a fair RISK about how a *jammed* lock is exposed to assistive technology.
+
+**Final state:** scoring the latest saved output of each of the 17 cases against the final expectations gives 17/17 — but those outputs come from three separate runs interleaved with rule and expectation changes, not from one clean end-to-end run of the final skill text. Treat this as "each case has passed at least once on current expectations", not as a stable pass rate. Neutrality observations: the Vue fixture review used SFC/scoped/slot reasoning and no React idioms; the SwiftUI review stated SOURCE-ONLY, used `accessibilityLabel`/Dynamic Type and did not ask for ARIA. These are single small samples.
+
+**Not yet validated:** the extensions on a real project (no full KinetixUI re-review after the extensions), the Svelte and Web Components adapters, and any non-source-only runtime path for the adapters.

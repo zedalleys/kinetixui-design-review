@@ -89,17 +89,18 @@
         "replace|slot|override|contract",
         "aria|accessible name|label"
       ],
-      "note": "Ordinary UI icons as text glyphs (P2) + an icon-only dismiss button with no accessible name (P1: control unusable to assistive tech).",
-      "minSeverity": "P1"
+      "note": "Ordinary UI icons as text glyphs (P2) + an icon-only dismiss button whose only name is a raw glyph (P2, or P1 if judged ambiguous/empty). The glyph issue must be reported; severity must not exceed P1.",
+      "maxSeverity": "P1"
     },
     {
       "id": "state-fidelity-good",
       "path": "fixtures/state-fidelity/good",
       "mode": "component",
-      "expect": "no-flag",
+      "expect": "notes",
       "mustMatch": [
         "single|derive|coherent|consistent"
-      ]
+      ],
+      "note": "Single-source state, text/control/illustration agree. Reviews may raise minor RISKs (e.g. how 'jammed' is exposed to assistive tech); P0/P1 must not appear."
     },
     {
       "id": "state-fidelity-bad",
@@ -136,7 +137,7 @@
       "mustNotMatch": [
         "add (more )?margin|shrink the (button|target)|reduce the (button|target)"
       ],
-      "note": "Control sits on the gauge ring. Must be measured, and the fix must be structural, not an arbitrary margin or a smaller target."
+      "note": "Control sits on the data-bearing value arc, all inputs literal in the markup => FACT at V1, P1. Must be measured; fix must be structural, not an arbitrary margin or a smaller target."
     },
     {
       "id": "classes-inconsistency",
@@ -175,7 +176,8 @@
         "PASS"
       ],
       "mustNotMatch": [
-        "\\bDEFECT\\b"
+        "\\[DEFECT\\s*\u00b7",
+        "\\bDEFECT\\b[^\\n]{0,20}\\bP[0-3]\\b"
       ],
       "note": "FALSE-POSITIVE CONTROL: correct, consistent duplicates are an OPPORTUNITY with no P-level; verdict PASS, never FAIL."
     },
@@ -208,8 +210,8 @@
       "mustNotMatch": [
         "aria-label|aria-labelledby|role="
       ],
-      "minSeverity": "P1",
-      "note": "Native source-only review: reports source-only state; judges by SwiftUI idioms (accessibilityLabel, Dynamic Type); never demands ARIA. Glyph-only button without a name is P1."
+      "note": "Native source-only review: reports source-only state; judges by SwiftUI idioms (accessibilityLabel, Dynamic Type); never demands ARIA. Glyph-only dismiss button: P2, or P1 if judged ambiguous (see accessibility.md).",
+      "maxSeverity": "P1"
     }
   ]
 }

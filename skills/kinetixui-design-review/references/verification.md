@@ -16,6 +16,8 @@ Write the label next to the claim, with a pointer (`path:line`, command, URL).
 
 **Computed claims.** A number you calculated from source values (e.g. a gap derived from stroke width, radius and class-resolved spacing) is **INFERENCE (computed)** unless every input was verified at runtime. Show the inputs and the arithmetic so it can be checked. Computed results justify "P1/P2 if confirmed", not an unqualified high severity.
 
+**Exception — exact arithmetic on literal inputs.** If every input is a literal in the artifact under review (absolute pixel positions, explicit radii and strokes in markup, a fixed constant) and the computation involves no cascade, class resolution or runtime layout, the result is **FACT at V1, high confidence**. Show the inputs and arithmetic; the consequence may then be classed DEFECT at its real severity (e.g. a control sitting on the data-bearing arc → P1). Only values that depend on unresolved styles, responsive rules or runtime layout stay INFERENCE (computed).
+
 **Stated rationale is a claim.** Comments, ADRs and docs that explain a design ("measured: …", "VoiceOver reads this twice") are useful leads, not FACT about behavior. Cite them as stated, and verify the cheap ones.
 
 ## Evidence dimensions

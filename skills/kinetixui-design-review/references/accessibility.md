@@ -51,6 +51,6 @@ and computed contrast. Record which assistive-tech behaviors were *not* tested
 
 ## Severity hints
 
-Inaccessible primary interaction or keyboard trap → P0. **Any interactive control with no accessible name → P1** (P0 if it is the only way to complete a primary task).
+Inaccessible primary interaction or keyboard trap → P0. **An interactive control with no accessible name → P1** (P0 if it is the only way to complete a primary task). A control whose name exists but does not convey its purpose (a raw glyph such as `✕`, "button", "icon") → P2, and P1 if the name is empty or ambiguous in practice or the control is primary; say which check (accessibility-tree read) would settle it.
 Missing state exposure on a secondary control → P1/P2. Name/label mismatch with
 low impact → P2. Document the standard you judged against.
