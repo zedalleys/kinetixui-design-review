@@ -1,23 +1,30 @@
 ---
-name: design-system-review
-description: Repository-aware, evidence-based review of design-system implementation quality. Discovers a project's actual tokens, components, blocks, themes, icons, motion, RTL, accessibility, docs and platform implementations, then audits them against the project's own rules and real evidence. Use when asked to review, audit or fix a component, block, token architecture, theme, icon system, motion, accessibility, RTL, responsive/zoom behavior, docs truth, cross-platform parity, or release readiness of a design system or component library. Modes - audit, fix, component, block, tokens, theme, icons, motion, accessibility, rtl, docs, cross-platform, release. Optional project profiles (for example kinetixui) add project-specific rules. Not a linter, a visual-polish prompt, or an accessibility scanner.
+name: kinetixui-design-review
+description: Framework-neutral, repository-aware, evidence-based review of design-system implementation quality, published by KinetixUI and usable in projects that do not use KinetixUI. Discovers a project's capabilities and builds a System Model (tokens, components, blocks, themes, icons, motion, RTL, accessibility, docs, platforms), then audits against the project's own rules, classing findings as DEFECT, INCONSISTENCY, RISK or OPPORTUNITY with stated evidence, confidence and verification level. Inspection adapters cover web, React, Angular, Vue, Svelte, Web Components, SwiftUI, Jetpack Compose and Flutter. Use to review, audit or fix a component, block, tokens, theme, icons, motion, accessibility, RTL, responsive/zoom, docs truth, cross-platform parity or release readiness. Modes - audit, fix, component, block, tokens, theme, icons, motion, accessibility, rtl, docs, cross-platform, release. Optional project profiles. Not a linter, visual-polish prompt or accessibility scanner.
 license: MIT
 ---
 
-# Design System Review
+# KinetixUI Design Review
 
-Answers one question: **what does high-quality implementation of *this* design
-system mean, and does the current implementation satisfy it?**
+Published by KinetixUI; **framework-neutral and independent of the KinetixUI design system** (a KinetixUI profile exists only as a labelled reference example). Answers one question: **what does high-quality implementation of *this* design system mean, and does the current implementation satisfy it?**
 
 Method, always in this order: **DISCOVER → UNDERSTAND → AUDIT → FIX → VERIFY.**
 Never REDESIGN → JUSTIFY. `FIX` runs only in `fix` mode.
+
+| Phase | Produces |
+|---|---|
+| DISCOVER | Repository truth, **capability discovery** (what this review can do here), detected platforms/adapters, applicable profile |
+| UNDERSTAND | **System Model**, real user/developer need |
+| AUDIT | Findings, each with a **class**, evidence, confidence and verification level |
+| FIX | (`fix` mode only) confirmed defects fixed at the shared root cause |
+| VERIFY | Re-check at the strongest available **verification level**; state degraded states and limitations |
 
 ## Ground rules
 
 1. **Discovery before assumptions.** Do not assume React, Tailwind, an 8px grid, a particular icon set, RTL support, or multiple platforms. Find out.
 2. **Project rules beat generic rules.** Judge against the project's own tokens, scale, contracts and stated intent. Generic guidance fills gaps only.
-3. **Evidence over opinion.** Label claims FACT / OBSERVATION / INFERENCE / RECOMMENDATION. Never present inference as repository truth. Never claim verification you did not perform.
-4. **Don't inflate.** Use the severity model in `references/severity.md`. Intentional, disclosed trade-offs are evaluated, not reported as oversights.
+3. **Evidence over opinion.** Label claims FACT / OBSERVATION / INFERENCE / RECOMMENDATION, and give each finding its source, **confidence**, **verification level (V0–V4)** and coverage (`references/verification.md`). Never present inference as repository truth. Never claim verification you did not perform.
+4. **Don't inflate, don't mislabel.** Class every finding as DEFECT, INCONSISTENCY, RISK or OPPORTUNITY (`references/finding-classes.md`); use the severity model in `references/severity.md` where it applies. Intentional, disclosed trade-offs are evaluated, not reported as oversights.
 5. **Scale to scope.** A single-component review is not a 40-section report. Pick relevant dimensions.
 6. **Privacy.** Work locally. Do not upload repository contents to external services. No telemetry.
 7. **Don't modify outside the task.** `audit` and all review modes are read-only. Only `fix` edits files, and only confirmed defects.
@@ -57,19 +64,32 @@ Read, don't guess. Build a **Repository truth** summary with each item labelled 
 - documentation (site, MDX, Storybook, README); how examples are produced
 - testing infrastructure; accessibility tooling; CI gates and project `check:*`/lint scripts relevant to the scope
 - contribution rules; existing project-specific instructions (CLAUDE.md, CONTRIBUTING, AGENTS.md, ADRs)
+- **platforms and frameworks detected → the inspection adapters to load** (below)
 - **an applicable project profile** (below)
+
+### Capability discovery (required)
+
+Probe what this review can do here — source read, VCS state, runnable project gates, browser/runtime, dev server, platform toolchains, write permission — read-only, and record a short **Capability table** (`references/capability-discovery.md`). Capabilities set each dimension's **verification ceiling** and the review's **state**: FULL, DEGRADED, SOURCE-ONLY or BLOCKED (`references/verification.md`). Never install tooling in a read-only review.
+
+### Inspection adapters
+
+For each platform actually detected, load its adapter from `references/adapters/` (`web`, `react`, `angular`, `vue`, `svelte`, `web-components`, `swiftui`, `jetpack-compose`, `flutter`). An adapter says how to detect, locate, inspect and verify on that platform; it supplies *mechanics*, not design opinions, and several can apply at once. Judge each platform by its own idioms. Never load or review an adapter for a platform you did not detect. For an undetected-adapter framework, apply the `web` adapter plus the closest idioms and say so.
 
 Prefer the project's own scripts/gates over inventing checks. Do not copy volatile facts (component counts) into the report as constants — read them now and say they are as-of-now.
 
 ### Profiles
 
-A profile is `profiles/<name>.md` in this skill: project-specific invariants, discovery locations, regression scenarios — classified **ESTABLISHED / PROVISIONAL / AUDIT QUESTION**. Load one when the user names it ("use the kinetixui profile") or when repository evidence clearly matches the profile's detection section. Without a profile, run the generic core. To add one, see `profiles/README.md`. Profiles never loosen evidence requirements.
+A profile is a Markdown file in this skill's `profiles/` tree: project-specific invariants, discovery locations, regression scenarios — classified **ESTABLISHED / PROVISIONAL / AUDIT QUESTION**. Load one only when the user names it or when repository evidence clearly matches the profile's detection section. Without a profile, run the generic core — which is the normal case. To add one, see `profiles/README.md`. Profiles never loosen evidence requirements.
+
+**Reference profile.** `profiles/reference/kinetixui-design-system.md` is a *reference example* for the KinetixUI design system (the publisher's own project). It is not part of the core, is never loaded for other projects, and the core never depends on it.
 
 **Path note:** `references/` and `profiles/` paths are relative to *this skill's directory* (the base directory shown when the skill loads), **not** the repository under review. Read them from there.
 
 A profile's regression scenarios are checks to run *when applicable*. "No scenario applies to this scope" is a valid result; do not stretch one to fit. A profile rule that the repository itself contradicts (for example a documented, deliberate design) is reported as a **rule conflict** for the owner to adjudicate — see `references/severity.md`.
 
-## Step 2 — UNDERSTAND the need
+## Step 2 — UNDERSTAND: System Model and need
+
+Build the **System Model** (`references/system-model.md`): layers, contracts (promised vs implemented), pipelines, state authority, platforms, gates and what each proves, decisions/rules, and capabilities. Scale it to scope; write `unknown` or `not investigated` rather than guessing. Findings are judged against this model's contracts, not generic taste.
 
 For UI/product-facing work state **REAL USER NEED**: what is the user trying to accomplish? Do this *before* discussing styling.
 For design-system APIs state **DEVELOPER NEED**: what should the consuming developer reliably accomplish?
@@ -89,6 +109,8 @@ Choose dimensions by scope; load only the references you need (progressive discl
 | Docs page / preview infrastructure | `preview-isolation`, `documentation`, `rtl-directionality`, `color-theming` (isolation) |
 | Multi-platform claim | `cross-platform` (+ `verification`) and the references for any finding you report |
 | Release | `verification`, `severity`, `documentation`, `cross-platform` |
+
+Always load `finding-classes` and `severity` before writing findings, and the adapter for each platform you report on.
 
 If you report a finding in a dimension whose reference you did not load, load it first.
 
@@ -111,8 +133,12 @@ The full list:
 | Documentation / API truth | `references/documentation.md` |
 | Cross-platform parity and platform-native review | `references/cross-platform.md` |
 | Performance, scalability, complexity | `references/performance-scalability.md` |
-| Evidence, verification, negative controls | `references/verification.md` |
+| System Model | `references/system-model.md` |
+| Capability discovery | `references/capability-discovery.md` |
+| Evidence, confidence, verification levels, degraded states, negative controls | `references/verification.md` |
+| Finding classes | `references/finding-classes.md` |
 | Severity and verdicts | `references/severity.md` |
+| Platform inspection mechanics | `references/adapters/<platform>.md` |
 
 **Classify what you are reviewing** by role, not folder: package primitive, block, preview infrastructure, or demo/showcase code. Showcase code is not public API, but it *is* governed by state fidelity, demo truthfulness and isolation, because evaluators judge the system by it.
 
@@ -132,28 +158,28 @@ Don't create abstractions where only one legitimate case exists. Report one root
 
 ## Step 4 — Report (scale to scope)
 
-**The verdict must follow the findings** (`references/severity.md`): FAIL requires at least one P0/P1; P2/P3-only reports are PASS or PASS WITH NOTES. If you feel a FAIL is warranted, a finding must justify P1 on evidence — raise the finding, not the verdict.
+**The verdict must follow the findings** (`references/severity.md`): FAIL requires at least one P0/P1 DEFECT or INCONSISTENCY; P2/P3-only reports are PASS or PASS WITH NOTES. RISKs ("P1 if confirmed") count as P2 for the verdict; OPPORTUNITIES never affect it. If you feel a FAIL is warranted, a finding must justify P1 on evidence — raise the finding, not the verdict.
 
-For a **small scope**, collapse to: Verdict · Scope · key Findings (with evidence labels) · Recommendations · Limitations (≈1 page). For a **broad audit or release**, use the full structure:
+Open the report with the review **state** (FULL / DEGRADED / SOURCE-ONLY; see `references/verification.md`). For a **small scope**, collapse to: Verdict · State · Scope · key Findings · Recommendations · Limitations (≈1 page). For a **broad audit or release**, use the full structure:
 
 ```
 ## Verdict            PASS | PASS WITH NOTES | FAIL   (release: READY | READY WITH NOTES | NOT READY)
+## State              FULL | DEGRADED | SOURCE-ONLY  (+ capability table: what was and was not available)
 ## Scope              exactly what was reviewed and how it was sampled
-## Repository truth   discovered architecture (FACT/INFERENCE)
-## Evidence           commands run, runtime checks, files read
-## Findings           P0 / P1 / P2 / P3 — each: title · evidence label · location · why it matters · root-cause layer
-## Root causes        for meaningful defects
-## Platform status    only applicable platforms; stage per platform (DEFINED→VERIFIED)
-## Accessibility      result (if relevant)
-## RTL                result (if relevant)
-## Theme              result (if relevant)
-## Responsive/scaling result (if relevant)
+## System Model       discovered layers, contracts, pipelines, gates (FACT/INFERENCE; "unknown" is valid)
+## Evidence           commands run, runtime checks, files read — with verification levels reached
+## Findings           grouped by class (DEFECT, INCONSISTENCY, RISK, OPPORTUNITY); each line:
+                      [CLASS · severity · evidence-label · confidence · level] title · location ·
+                      contract/standard or condition · root-cause layer
+## Root causes        for meaningful findings
+## Platform status    only applicable platforms; stage per platform (DEFINED→VERIFIED) and adapter used
+## Accessibility / RTL / Theme / Responsive   results, only if relevant
 ## Tests              existing + added/proposed
-## Recommendations    prioritized
+## Recommendations    prioritized; confirming checks for RISKs first
 ## Limitations        everything not verified, and why
 ```
 
-Omit empty sections. Never say "all components verified" unless all were; state exact coverage.
+Omit empty sections. Never say "all components verified" unless all were; state exact coverage. Keep OPPORTUNITIES short and last.
 
 ## Fix mode
 
@@ -171,7 +197,7 @@ Omit empty sections. Never say "all components verified" unless all were; state 
 
 ## Release mode
 
-Evaluate: unresolved P0/P1 · API compatibility/changelog · test status (what ran, what did not) · documentation truth · accessibility · platform-coverage **claims vs. evidence** · build/CI · known limitations disclosed. Return **READY / READY WITH NOTES / NOT READY** with the blocking items. **Green CI is an input, not the verdict.**
+Evaluate: unresolved P0/P1 (and RISKs that would be P0/P1 if confirmed) · API compatibility/changelog · test status (what ran, what did not) · documentation truth · accessibility · platform-coverage **claims vs. evidence** · build/CI · known limitations disclosed. Return **READY / READY WITH NOTES / NOT READY** with the blocking items. **Green CI is an input, not the verdict.**
 
 ## Anti-patterns to resist
 

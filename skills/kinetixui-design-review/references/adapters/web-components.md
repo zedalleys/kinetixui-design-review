@@ -1,0 +1,9 @@
+# Adapter: Web Components
+
+1. **Detect.** `customElements.define`, `HTMLElement` subclasses, Lit (`lit`, `@customElement`), Stencil, FAST, `*.element.ts`, `custom-elements.json` manifests, shadow DOM usage.
+2. **Where to look.** Element classes (properties/attributes/reflection), shadow-root templates, `static styles`/`adoptedStyleSheets`, CSS custom properties exposed as the theming API, `::part()`/`::slotted()` hooks, slots, `ElementInternals` (form association, ARIA), events (`CustomEvent` with `composed`/`bubbles`), the custom-elements manifest, tests.
+3. **Static inspection (V1).** Leads: theming that requires piercing shadow DOM instead of custom properties/parts; semantics placed on the host rather than the inner control (or vice versa without `ElementInternals`); `delegatesFocus`; `aria-labelledby`/`for` references that cannot cross shadow roots; direction handled via `:host(:dir(rtl))`, `dir` inheritance, or global writes; events lacking `composed`; attribute/property mismatch; light-DOM fallback content.
+4. **Runtime / gated (V2–V3).** Gated: the project's web-test-runner/Playwright tests if safe. Runtime: browser inspection must read the **accessibility tree** (it flattens shadow DOM) and computed styles through the shadow boundary; test slotting and focus delegation.
+5. **Idiomatic checks.** Custom properties and parts as the documented styling API; slots for content; `ElementInternals`/`delegatesFocus` for form and focus semantics; reflect meaningful state to attributes; document the API in the custom-elements manifest.
+6. **False positives.** Closed shadow roots by design; absence of light-DOM styling hooks where parts/properties are provided.
+7. **Verification ceiling.** Source → V1. Tests run → V2. Browser (AX tree, computed styles) → V3. Shadow-DOM accessibility claims below V3 are low confidence. This adapter has **not** been exercised against a real Web Components design system.

@@ -1,0 +1,9 @@
+# Adapter: Flutter
+
+1. **Detect.** `pubspec.yaml` with the Flutter SDK, `lib/**/*.dart`, `StatelessWidget`/`StatefulWidget`, `ThemeData`/`ThemeExtension`, `flutter_test`.
+2. **Where to look.** Widget classes and constructors (the API), `ThemeData`, `ThemeExtension`s and token classes, `Directionality`/`TextDirection`/`EdgeInsetsDirectional`, `Semantics`/`MergeSemantics`/`ExcludeSemantics`, `MediaQuery` (text scaler, `disableAnimations`), animation controllers/implicit animations, widget and golden tests, example app.
+3. **Static inspection (V1).** Leads: literal `Color(0x…)`, `EdgeInsets.only(left: …)`/`Alignment.centerLeft` vs directional variants; fixed font sizes ignoring the text scaler; custom gesture detectors without `Semantics` or minimum target; `Text('▾')` glyphs vs `Icon`; missing `Semantics(label:…)` on custom paint widgets; animations that ignore `MediaQuery.disableAnimations`; rebuilds from heavy `build()` work; global `Theme` mutation instead of `Theme`/`ThemeExtension`.
+4. **Runtime / gated (V2–V3).** Needs the Flutter SDK: `flutter analyze`, `flutter test` (widget tests can assert semantics, directionality and text-scale overflow), golden tests, running the example app. Often unavailable in bare containers.
+5. **Idiomatic checks.** Composition of widgets; `ThemeExtension` for custom tokens; directional geometry; `Semantics` trees; testing with `tester.getSemantics`, `textScaler` overrides and `Directionality(rtl)`.
+6. **False positives.** Literal colors in token definitions; `CustomPaint` artwork with dimensions; generic "smoke test" that pumps many widgets — real, but **indirect** evidence (`../cross-platform.md`).
+7. **Verification ceiling.** Without the SDK: V1 only — mark Flutter findings **source-only**. With the SDK: V2 (analyze/tests), V3 (running app, semantics tree). Screen-reader behavior needs a device/emulator.

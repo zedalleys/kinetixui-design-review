@@ -18,6 +18,47 @@ Write the label next to the claim, with a pointer (`path:line`, command, URL).
 
 **Stated rationale is a claim.** Comments, ADRs and docs that explain a design ("measured: …", "VoiceOver reads this twice") are useful leads, not FACT about behavior. Cite them as stated, and verify the cheap ones.
 
+## Evidence dimensions
+
+A finding's evidence has **five dimensions**, kept separate so none is overstated:
+
+| Dimension | Values | Meaning |
+|---|---|---|
+| **Label** | FACT · OBSERVATION · INFERENCE · RECOMMENDATION | Nature of the claim (above) |
+| **Source** | source · test · gate · runtime · doc · generated-report · stated-rationale | Where the evidence came from; a generated report or stated rationale is a *claim* to check |
+| **Confidence** | high · medium · low | How likely the finding is correct *as classed* (rules below) |
+| **Level** | V0–V4 | How strongly it was verified (next section) |
+| **Coverage** | exact scope | What was and was not examined ("3 of 41 components") |
+
+**Confidence rules.** *High*: directly observed at its level, reproducible, and no plausible alternative reading. *Medium*: well supported but has a named alternative (an unverified runtime effect, an unread caller, a stated rationale not reproduced). *Low*: a lead — pattern match, keyword hit, or computed estimate with unverified inputs. Confidence is about correctness, not importance; do not raise it to justify severity. Low-confidence findings are RISKs or OPPORTUNITIES, not DEFECTs (`finding-classes.md`).
+
+## Verification levels
+
+The strongest evidence behind a finding, from weakest to strongest:
+
+| Level | Name | What it means |
+|---|---|---|
+| **V0** | Unverified | Reported from a document, generated report, comment or memory; not checked against implementation |
+| **V1** | Source | You read the implementation/config/tests (static); includes arithmetic from source values |
+| **V2** | Gated | A project gate or test run *you executed* exercises the property (state the command and exit status) — and you checked what it actually asserts |
+| **V3** | Runtime | Observed or measured in a running/rendered system (computed styles, rects, accessibility tree, behavior) |
+| **V4** | Cross-checked | V3 plus an independent second source (another platform or viewport, assistive-technology run, or a negative control proving the check can fail) |
+
+Rules: a finding states its level; a *claim of absence* ("no leak", "passes") needs at least the level that could have shown the opposite; levels never combine upward by averaging; V0 evidence is never a FACT about behavior. The **ceiling** for a dimension is set by capabilities (`capability-discovery.md`).
+
+## Degraded states
+
+State the review's overall mode honestly:
+
+| State | When | Reporting |
+|---|---|---|
+| **FULL** | Needed capabilities available for the scope; verification reached the levels the scope calls for | No caveat beyond coverage |
+| **DEGRADED** | Some capability missing or some gates not runnable (name them) | List per-dimension ceilings; conditional findings; confirming checks first in Recommendations |
+| **SOURCE-ONLY** | No runtime and no gates (everything V0/V1) | Say so in the first line of the report; visual/spatial/behavior claims are INFERENCE; verdict may only be PASS WITH NOTES at best for runtime-dependent scopes unless the claim is static by nature |
+| **BLOCKED** | Cannot read the needed code or permissions deny required actions | Stop and report what is blocking and how to resolve it; do not produce a verdict |
+
+A degraded or source-only state is a *statement of method*, not a defect of the project. Per-platform states are allowed (web DEGRADED, SwiftUI SOURCE-ONLY).
+
 ## Choosing evidence by claim type
 
 | Claim about… | Prefer |

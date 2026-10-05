@@ -13,6 +13,10 @@ choose the lower one and say what evidence would raise it.
 | **P2** | Maturity | Meaningful consistency, maintainability or UX problem that does not break trust outright. | Token leakage in reusable components; spacing/geometry defect; incomplete customization; docs gap; inconsistent icon API. |
 | **P3** | Polish | Nonessential visual or refinement issue. | Optical icon balance; shadow weight; minor copy tweak. |
 
+## Severity and finding class
+
+Severity applies to **DEFECT**, **INCONSISTENCY** and (conditionally) **RISK** findings — see `finding-classes.md`. **OPPORTUNITY** findings carry no P-level and never affect a verdict. An unconfirmed RISK is written "P1 if confirmed" and counts as P2 for the verdict. Confidence and verification level (`verification.md`) cap severity: low-confidence or V0/V1-only findings about runtime behavior are RISKs, not DEFECTs.
+
 ## Calibration rules
 
 1. **Claimed vs. unclaimed.** A parity gap is P1 only if the project *claims*
